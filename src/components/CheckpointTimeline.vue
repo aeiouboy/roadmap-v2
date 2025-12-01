@@ -159,6 +159,7 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
 .checkpoint-timeline-container {
   position: relative;
   padding: 0;
+  min-width: max-content;
 }
 
 .checkpoint-timeline {
@@ -167,7 +168,7 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
   min-height: 100px;
   display: grid;
   gap: 0;
-  min-width: 100%;
+  min-width: max-content;
   align-items: center;
   overflow: visible;
 }
