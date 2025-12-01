@@ -8,11 +8,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, 'roadmap-data.json');
 
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from dist folder in production
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Get roadmap data
 app.get('/api/roadmap', async (req, res) => {
@@ -45,6 +48,11 @@ app.post('/api/roadmap', async (req, res) => {
   }
 });
 
+// Handle SPA routing - serve index.html for all other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`Roadmap API server running on http://localhost:${PORT}`);
+  console.log(`Roadmap server running on port ${PORT}`);
 });

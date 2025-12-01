@@ -1,6 +1,7 @@
 import type { Category, Sprint, Feature, Checkpoint, TimelineMilestone } from '../types';
 
-const API_BASE_URL = 'http://localhost:3001/api';
+// Use relative URL for production, works with same-origin API
+const API_BASE_URL = '/api';
 
 export interface RoadmapData {
   categories: Category[];

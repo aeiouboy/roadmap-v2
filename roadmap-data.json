@@ -80,6 +80,15 @@
       "position": 8,
       "is_custom": false,
       "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "name": "QC Adapter",
+      "icon": "📁",
+      "color": "exceptional",
+      "position": 9,
+      "is_custom": true,
+      "id": 1764573096446,
+      "created_at": "2025-12-01T07:11:36.446Z"
     }
   ],
   "sprints": [
@@ -169,26 +178,6 @@
     }
   ],
   "features": [
-    {
-      "id": 1764562593239,
-      "title": "Order self service - Cancel",
-      "description": "Cancel via UI\nModule: Order\nSubmodule: Order self service",
-      "category_id": 1,
-      "sprint_id": 1,
-      "position": 0,
-      "created_at": "2025-12-01T04:16:33.239Z",
-      "updated_at": "2025-12-01T04:16:33.239Z"
-    },
-    {
-      "id": 1764562593240,
-      "title": "Order self service - Modify",
-      "description": "Modification: allow CS to change customer address\nModule: Order\nSubmodule: Order self service",
-      "category_id": 1,
-      "sprint_id": 1,
-      "position": 1,
-      "created_at": "2025-12-01T04:16:33.239Z",
-      "updated_at": "2025-12-01T04:16:33.239Z"
-    },
     {
       "id": 1764562593242,
       "title": "Order & item charges - Discount",
@@ -838,6 +827,36 @@
       "id": 1764563079776,
       "created_at": "2025-12-01T04:24:39.776Z",
       "updated_at": "2025-12-01T04:24:41.393Z"
+    },
+    {
+      "title": "QC - Backup Plan",
+      "description": "",
+      "category_id": 1764573096446,
+      "sprint_id": 4,
+      "position": 0,
+      "id": 1764573622585,
+      "created_at": "2025-12-01T07:20:22.585Z",
+      "updated_at": "2025-12-01T07:20:26.352Z"
+    },
+    {
+      "title": "QC Adapter - All New",
+      "description": "",
+      "category_id": 1764573096446,
+      "sprint_id": 7,
+      "position": 0,
+      "id": 1764573658315,
+      "created_at": "2025-12-01T07:20:58.315Z",
+      "updated_at": "2025-12-01T07:21:13.198Z"
+    },
+    {
+      "title": "Back-End UI",
+      "description": "",
+      "category_id": 7,
+      "sprint_id": 5,
+      "position": 0,
+      "id": 1764574665619,
+      "created_at": "2025-12-01T07:37:45.619Z",
+      "updated_at": "2025-12-01T07:38:09.902Z"
     }
   ],
   "checkpoints": [],
