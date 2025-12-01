@@ -92,11 +92,6 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
   handleDragEnd()
 }
 
-// Get sprint number from grid column
-function getSprintFromColumn(columnIndex: number): number {
-  const sprintIndex = columnIndex - 2 // Subtract category column and 0-based index
-  return sortedSprints.value[sprintIndex]?.number ?? 0
-}
 </script>
 
 <template>

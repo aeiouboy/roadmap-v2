@@ -18,8 +18,15 @@ const emit = defineEmits<{
 
 const store = useRoadmapStore()
 
+// Default style for fallback
+const defaultCategoryStyle = {
+  bg: 'rgba(0, 212, 255, 0.1)',
+  border: '#00d4ff',
+  icon: 'rgba(0, 212, 255, 0.2)',
+}
+
 // Map category colors to CSS styles
-const categoryStyle = computed(() => {
+const categoryStyle = computed((): { bg: string; border: string; icon: string } => {
   const colorMap: Record<string, { bg: string; border: string; icon: string }> = {
     'order': {
       bg: 'rgba(0, 212, 255, 0.1)',
@@ -67,7 +74,7 @@ const categoryStyle = computed(() => {
       icon: 'rgba(239, 68, 68, 0.2)',
     },
   }
-  return colorMap[props.category.color] ?? colorMap['order']
+  return colorMap[props.category.color] || defaultCategoryStyle
 })
 
 function handleEditCategory() {

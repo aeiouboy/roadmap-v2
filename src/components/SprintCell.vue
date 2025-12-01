@@ -59,10 +59,6 @@ async function handleDrop(e: DragEvent) {
   }
 }
 
-function handleNewFeature() {
-  emit('new-feature', props.category.id, props.sprint.id)
-}
-
 function handleEditFeature(feature: Feature) {
   emit('edit-feature', feature)
 }

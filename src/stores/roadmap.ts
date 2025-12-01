@@ -375,8 +375,10 @@ export const useRoadmapStore = defineStore('roadmap', {
       const index = this.milestones.findIndex((m) => m.id === id);
       if (index !== -1) {
         const milestone = this.milestones[index];
-        this.milestones.splice(index, 1);
-        this.showToast(`Deleted milestone at Sprint ${milestone.sprint}`, 'success');
+        if (milestone) {
+          this.milestones.splice(index, 1);
+          this.showToast(`Deleted milestone at Sprint ${milestone.sprint}`, 'success');
+        }
       }
     },
 
