@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Migration</title>
+    <style>
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #0a0a0f;
+            color: #f8fafc;
+        }
+        .status {
+            background: #12121a;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+        }
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
+        pre {
+            background: #1a1a25;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="status">
+        <h1>Migration Status</h1>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const resultDiv = document.getElementById('result');
+
+        // Category mapping
+        const categoryMapping = {
+            'order': { id: 1, name: 'Order', icon: '📦', color: 'order' },
+            'validation': { id: 2, name: 'Validation', icon: '✅', color: 'validation' },
+            'inventory': { id: 3, name: 'Inventory', icon: '📊', color: 'inventory' },
+            'payment': { id: 4, name: 'Payment', icon: '💳', color: 'payment' },
+            'orchestration': { id: 5, name: 'Orchestration', icon: '⚙️', color: 'orchestration' },
+            'notification': { id: 6, name: 'Notification', icon: '🔔', color: 'notification' },
+            'ui': { id: 7, name: 'UI', icon: '🎨', color: 'ui' },
+            'reporting': { id: 8, name: 'Reporting', icon: '📈', color: 'reporting' },
+            'exceptional': { id: 9, name: 'Exceptional', icon: '⚠️', color: 'exceptional' }
+        };
+
+        // Sprint mapping
+        const sprintMapping = {
+            'backlog': { id: 1, number: -1, name: 'Backlog' },
+            '0': { id: 2, number: 0, name: 'Sprint 0' },
+            '1': { id: 3, number: 1, name: 'Sprint 1' },
+            '2': { id: 4, number: 2, name: 'Sprint 2' },
+            '3': { id: 5, number: 3, name: 'Sprint 3' },
+            '4': { id: 6, number: 4, name: 'Sprint 4' },
+            '5': { id: 7, number: 5, name: 'Sprint 5' },
+            '6': { id: 8, number: 6, name: 'Sprint 6' },
+            '7': { id: 9, number: 7, name: 'Sprint 7' },
+            '8': { id: 10, number: 8, name: 'Sprint 8' },
+            '9': { id: 11, number: 9, name: 'Sprint 9' },
+            '8-9': { id: 10, number: 8, name: 'Sprint 8-9' }
+        };
+
+        function migrate() {
+            try {
+                // Check for old data
+                const oldDataStr = localStorage.getItem('roadmapState');
+
+                if (!oldDataStr) {
+                    resultDiv.innerHTML = `
+                        <p class="error">❌ No old data found</p>
+                        <p>Looking for localStorage key 'roadmapState'</p>
+                        <p>Available keys: ${Object.keys(localStorage).join(', ')}</p>
+                    `;
+                    return;
+                }
+
+                const oldData = JSON.parse(oldDataStr);
+
+                // Initialize new data structure
+                const newData = {
+                    categories: [],
+                    sprints: [],
+                    features: [],
+                    checkpoints: []
+                };
+
+                // Migrate categories
+                Object.entries(categoryMapping).forEach(([key, cat], index) => {
+                    newData.categories.push({
+                        id: cat.id,
+                        name: oldData.categoryNames?.[key] || cat.name,
+                        icon: cat.icon,
+                        color: cat.color,
+                        position: index,
+                        is_custom: false,
+                        created_at: new Date().toISOString()
+                    });
+                });
+
+                // Add custom categories
+                if (oldData.customCategories) {
+                    oldData.customCategories.forEach((customCat, index) => {
+                        newData.categories.push({
+                            id: 100 + index,
+                            name: customCat.name,
+                            icon: customCat.icon || '📌',
+                            color: customCat.color || 'ui',
+                            position: 9 + index,
+                            is_custom: true,
+                            created_at: new Date().toISOString()
+                        });
+                    });
+                }
+
+                // Migrate sprints
+                Object.entries(sprintMapping).forEach(([key, sprint], index) => {
+                    newData.sprints.push({
+                        id: sprint.id,
+                        number: sprint.number,
+                        name: oldData.sprintNames?.[key] || sprint.name,
+                        position: index,
+                        created_at: new Date().toISOString()
+                    });
+                });
+
+                // Add dynamic sprints
+                if (oldData.dynamicSprints) {
+                    oldData.dynamicSprints.forEach((dynSprint, index) => {
+                        newData.sprints.push({
+                            id: 100 + index,
+                            number: dynSprint.number,
+                            name: dynSprint.name,
+                            position: 11 + index,
+                            created_at: new Date().toISOString()
+                        });
+                    });
+                }
+
+                // Migrate features
+                if (oldData.features && oldData.features.length > 0) {
+                    oldData.features.forEach((feature, index) => {
+                        const categoryId = categoryMapping[feature.category]?.id || 1;
+                        const sprintId = sprintMapping[feature.sprint]?.id || 1;
+
+                        const descParts = [];
+                        if (feature.detail) descParts.push(feature.detail);
+                        if (feature.module) descParts.push(`Module: ${feature.module}`);
+                        if (feature.submodule) descParts.push(`Submodule: ${feature.submodule}`);
+                        if (feature.assignee) descParts.push(`Assignee: ${feature.assignee}`);
+
+                        newData.features.push({
+                            id: Date.now() + index,
+                            title: feature.text,
+                            description: descParts.join('\n'),
+                            category_id: categoryId,
+                            sprint_id: sprintId,
+                            position: index,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    });
+                }
+
+                // Save to new format
+                localStorage.setItem('roadmap-data', JSON.stringify(newData));
+
+                resultDiv.innerHTML = `
+                    <p class="success">✅ Migration successful!</p>
+                    <h3>Migrated:</h3>
+                    <ul>
+                        <li>${newData.categories.length} categories</li>
+                        <li>${newData.sprints.length} sprints</li>
+                        <li>${newData.features.length} features</li>
+                    </ul>
+                    <h3>Next Steps:</h3>
+                    <p>1. Close this tab</p>
+                    <p>2. Go to <a href="/" style="color: #00d4ff;">http://localhost:5176/</a></p>
+                    <p>3. Your features should now appear!</p>
+                    <details style="margin-top: 1rem;">
+                        <summary style="cursor: pointer; color: #00d4ff;">View migrated data</summary>
+                        <pre>${JSON.stringify(newData, null, 2)}</pre>
+                    </details>
+                `;
+
+                // Auto redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 3000);
+
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <p class="error">❌ Migration failed</p>
+                    <pre>${error.message}\n\n${error.stack}</pre>
+                `;
+            }
+        }
+
+        // Run migration on load
+        migrate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,881 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Order",
+      "icon": "📦",
+      "color": "order",
+      "position": 0,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 2,
+      "name": "Validation",
+      "icon": "✅",
+      "color": "validation",
+      "position": 1,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 3,
+      "name": "Inventory",
+      "icon": "📊",
+      "color": "inventory",
+      "position": 2,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 4,
+      "name": "Payment",
+      "icon": "💳",
+      "color": "payment",
+      "position": 3,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 5,
+      "name": "Orchestration",
+      "icon": "⚙️",
+      "color": "orchestration",
+      "position": 4,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 6,
+      "name": "Notification",
+      "icon": "🔔",
+      "color": "notification",
+      "position": 5,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 7,
+      "name": "UI",
+      "icon": "🎨",
+      "color": "ui",
+      "position": 6,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 8,
+      "name": "Reporting",
+      "icon": "📈",
+      "color": "reporting",
+      "position": 7,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 9,
+      "name": "Exceptional",
+      "icon": "⚠️",
+      "color": "exceptional",
+      "position": 8,
+      "is_custom": false,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    }
+  ],
+  "sprints": [
+    {
+      "id": 1,
+      "number": -1,
+      "name": "Backlog",
+      "position": 1,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 2,
+      "number": 0,
+      "name": "Sprint 0",
+      "position": 2,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 3,
+      "number": 1,
+      "name": "Sprint 1",
+      "position": 3,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 4,
+      "number": 2,
+      "name": "Sprint 2",
+      "position": 4,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 5,
+      "number": 3,
+      "name": "Sprint 3",
+      "position": 5,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 6,
+      "number": 4,
+      "name": "Sprint 4",
+      "position": 6,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 7,
+      "number": 5,
+      "name": "Sprint 5",
+      "position": 7,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 8,
+      "number": 6,
+      "name": "Sprint 6",
+      "position": 8,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 9,
+      "number": 7,
+      "name": "Sprint 7",
+      "position": 9,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 10,
+      "number": 8,
+      "name": "Sprint 8",
+      "position": 10,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 11,
+      "number": 9,
+      "name": "Sprint 9",
+      "position": 11,
+      "created_at": "2025-12-01T04:16:33.239Z"
+    }
+  ],
+  "features": [
+    {
+      "id": 1764562593239,
+      "title": "Order self service - Cancel",
+      "description": "Cancel via UI\nModule: Order\nSubmodule: Order self service",
+      "category_id": 1,
+      "sprint_id": 1,
+      "position": 0,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593240,
+      "title": "Order self service - Modify",
+      "description": "Modification: allow CS to change customer address\nModule: Order\nSubmodule: Order self service",
+      "category_id": 1,
+      "sprint_id": 1,
+      "position": 1,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593242,
+      "title": "Order & item charges - Discount",
+      "description": "Disc./Promo/Coupon handling\nModule: Order\nSubmodule: Order & item charges",
+      "category_id": 1,
+      "sprint_id": 4,
+      "position": 3,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593243,
+      "title": "Order & item charges - Shipping",
+      "description": "Shipping fee. Current MAO-FMS (CFR, DS): ECOM>MAO order header, MAO>Mule prorate to line level\nModule: Order\nSubmodule: Order & item charges",
+      "category_id": 1,
+      "sprint_id": 4,
+      "position": 4,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593244,
+      "title": "Order calculation",
+      "description": "Calculate order & line amount: subtotal, total, discount amount, tax amount, etc.\nModule: Order\nSubmodule: Order calculation",
+      "category_id": 1,
+      "sprint_id": 4,
+      "position": 5,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593245,
+      "title": "Release",
+      "description": "Logic / rule / period\nModule: Order\nSubmodule: Release",
+      "category_id": 1,
+      "sprint_id": 4,
+      "position": 6,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593246,
+      "title": "Order status tracking",
+      "description": "Fulfillment status (Picking, Packing, Packed, Ready To Ship) - Order-status-update from Fulfillment System\nModule: Order\nSubmodule: Order status tracking",
+      "category_id": 1,
+      "sprint_id": 5,
+      "position": 7,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593247,
+      "title": "Delivery status tracking",
+      "description": "Track from shipped until delivered\nModule: Order\nSubmodule: Delivery status tracking",
+      "category_id": 1,
+      "sprint_id": 5,
+      "position": 8,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593248,
+      "title": "Pre-Order management",
+      "description": "Pre-order lifecycle management\nModule: Order\nSubmodule: Pre-Order management",
+      "category_id": 1,
+      "sprint_id": 5,
+      "position": 9,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593249,
+      "title": "Order update/publish",
+      "description": "Publish per order / status: Open, Release, Picked (CC), Shipped, Delivered, Partial/Fully cancel\nModule: Order\nSubmodule: Order update/publish",
+      "category_id": 1,
+      "sprint_id": 5,
+      "position": 10,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593250,
+      "title": "Order cancel",
+      "description": "Full/partial cancel by item and qty\nModule: Order\nSubmodule: Order cancel",
+      "category_id": 1,
+      "sprint_id": 5,
+      "position": 11,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593251,
+      "title": "Order modification",
+      "description": "Allow order info updates, e.g. payment status, update customer address\nModule: Order\nSubmodule: Order modification",
+      "category_id": 1,
+      "sprint_id": 5,
+      "position": 12,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593252,
+      "title": "Order inquiry interface",
+      "description": "Historical order / get order with specific template, e.g. Slick return\nModule: Order\nSubmodule: Order inquiry interface",
+      "category_id": 1,
+      "sprint_id": 8,
+      "position": 13,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593253,
+      "title": "ETA calculation",
+      "description": "Calculate & show ETA when order is placed\nModule: Order\nSubmodule: ETA calculation",
+      "category_id": 1,
+      "sprint_id": 8,
+      "position": 14,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593254,
+      "title": "Backorder management",
+      "description": "Partial / full backorder handling\nModule: Order\nSubmodule: Backorder management",
+      "category_id": 1,
+      "sprint_id": 8,
+      "position": 15,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593255,
+      "title": "Multiple shipment",
+      "description": "Multiple fulfillment location\nModule: Order\nSubmodule: Multiple shipment",
+      "category_id": 1,
+      "sprint_id": 10,
+      "position": 16,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593256,
+      "title": "Validation - Promising request",
+      "description": "System e.g. data type/structure, key. Validate flag allocation: True/False?\nModule: Order\nSubmodule: Validation - Order Draft",
+      "category_id": 1,
+      "sprint_id": 3,
+      "position": 0,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:24:13.409Z"
+    },
+    {
+      "id": 1764562593257,
+      "title": "System Validation",
+      "description": "System validation: data type/structure, key\nModule: Order\nSubmodule: Validation",
+      "category_id": 2,
+      "sprint_id": 4,
+      "position": 18,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593258,
+      "title": "Functional Validation",
+      "description": "Mandatory fields, list of value, relation of fields. Example: CC delivery -> ECOM sends pickup address; Mirakl item sends release group as seller id/name\nModule: Order\nSubmodule: Validation",
+      "category_id": 2,
+      "sprint_id": 4,
+      "position": 19,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593259,
+      "title": "Item type - Tops Prime",
+      "description": "Item Tops Prime handling\nModule: Order\nSubmodule: Item type",
+      "category_id": 2,
+      "sprint_id": 4,
+      "position": 20,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593260,
+      "title": "Item type - Pack Unit",
+      "description": "Pack of unit item\nModule: Order\nSubmodule: Item type",
+      "category_id": 2,
+      "sprint_id": 4,
+      "position": 21,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593261,
+      "title": "Item type - Pack Weight",
+      "description": "Pack of weight item\nModule: Order\nSubmodule: Item type",
+      "category_id": 2,
+      "sprint_id": 4,
+      "position": 22,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593262,
+      "title": "Enrichment",
+      "description": "Image URL from OMS Item Master, shortname, primary barcode (for Tops Prime?)\nModule: Order\nSubmodule: Enrichement",
+      "category_id": 2,
+      "sprint_id": 4,
+      "position": 23,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593263,
+      "title": "Item type - Mirakl",
+      "description": "Mirakl item handling\nModule: Order\nSubmodule: Item type",
+      "category_id": 2,
+      "sprint_id": 10,
+      "position": 24,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593264,
+      "title": "Item type - MJT",
+      "description": "MJT item handling\nModule: Order\nSubmodule: Item type",
+      "category_id": 2,
+      "sprint_id": 10,
+      "position": 25,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593265,
+      "title": "Allocation - Initial",
+      "description": "On hand, Safety, Reserve\nModule: Inventory\nSubmodule: Allocation\nAssignee: All Dev",
+      "category_id": 3,
+      "sprint_id": 2,
+      "position": 26,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593266,
+      "title": "Allocation - Order Draft",
+      "description": "Force Allocation\nModule: Order\nSubmodule: Allocation - Order Draft",
+      "category_id": 3,
+      "sprint_id": 3,
+      "position": 27,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593267,
+      "title": "Availability Check + Backorder",
+      "description": "Availability Check + Backorder management\nModule: Order\nSubmodule: Availability Check + Backorder management",
+      "category_id": 3,
+      "sprint_id": 3,
+      "position": 28,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593268,
+      "title": "Reservation - Order Draft",
+      "description": "Reservation / Cancel / Auto Expire\nModule: Order\nSubmodule: Reservation - Order Draft",
+      "category_id": 3,
+      "sprint_id": 3,
+      "position": 29,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593269,
+      "title": "Reallocation",
+      "description": "Job / frequency. Example: unpaid -> paid triggers reallocation job\nModule: Order\nSubmodule: Reallocation",
+      "category_id": 3,
+      "sprint_id": 3,
+      "position": 30,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593270,
+      "title": "Allocation - No Reservation",
+      "description": "Force Allocation when no Reservation ID\nModule: Order\nSubmodule: Allocation",
+      "category_id": 3,
+      "sprint_id": 4,
+      "position": 31,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593271,
+      "title": "Reservation - No Reservation",
+      "description": "Reservation / Cancel / Auto Expire when no Reservation ID\nModule: Order\nSubmodule: Reservation",
+      "category_id": 3,
+      "sprint_id": 4,
+      "position": 32,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593272,
+      "title": "Reallocation - Sprint 2",
+      "description": "Job / frequency. Example: unpaid -> paid triggers reallocation job\nModule: Order\nSubmodule: Reallocation",
+      "category_id": 3,
+      "sprint_id": 4,
+      "position": 33,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593273,
+      "title": "Inventory UI",
+      "description": "Inventory management UI\nModule: Inventory\nSubmodule: Inventory UI",
+      "category_id": 7,
+      "sprint_id": 6,
+      "position": 2,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:25:06.595Z"
+    },
+    {
+      "id": 1764562593274,
+      "title": "Allocation logic",
+      "description": "Focus minimize split, special brand handling\nModule: Order\nSubmodule: Allocation logic",
+      "category_id": 3,
+      "sprint_id": 10,
+      "position": 35,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593275,
+      "title": "Payment type - Pre-paid",
+      "description": "Pre-paid: insert/update transaction and payment status flow\nModule: Order\nSubmodule: Payment type",
+      "category_id": 4,
+      "sprint_id": 4,
+      "position": 36,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593276,
+      "title": "Payment type - Post-paid",
+      "description": "Post-paid: insert/update transaction and payment status flow\nModule: Order\nSubmodule: Payment type",
+      "category_id": 4,
+      "sprint_id": 4,
+      "position": 37,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593277,
+      "title": "Payment type - MKP",
+      "description": "Marketplace payment (MKP payment)\nModule: Order\nSubmodule: Payment type",
+      "category_id": 4,
+      "sprint_id": 4,
+      "position": 38,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593278,
+      "title": "Single/multiple payment",
+      "description": "Mix payment, e.g. T1 + other\nModule: Order\nSubmodule: Single/multiple payment",
+      "category_id": 4,
+      "sprint_id": 4,
+      "position": 39,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593279,
+      "title": "Orchestration - STD-HD",
+      "description": "Standard Home Delivery orchestration\nModule: Order\nSubmodule: Orchestration by delivery method",
+      "category_id": 5,
+      "sprint_id": 4,
+      "position": 40,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593280,
+      "title": "Orchestration - EXP-HD",
+      "description": "Express Home Delivery orchestration\nModule: Order\nSubmodule: Orchestration by delivery method",
+      "category_id": 5,
+      "sprint_id": 4,
+      "position": 41,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593281,
+      "title": "Orchestration - STD-CC",
+      "description": "Standard Click & Collect (same/other store)\nModule: Order\nSubmodule: Orchestration by delivery method",
+      "category_id": 5,
+      "sprint_id": 4,
+      "position": 42,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593282,
+      "title": "Orchestration - EXP-HD DS",
+      "description": "EXP-HD (DS 3hrs.)\nModule: Order\nSubmodule: Orchestration by delivery method",
+      "category_id": 5,
+      "sprint_id": 10,
+      "position": 43,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593283,
+      "title": "Orchestration - EXP-CC DS",
+      "description": "EXP-CC (DS 1hr.)\nModule: Order\nSubmodule: Orchestration by delivery method",
+      "category_id": 5,
+      "sprint_id": 10,
+      "position": 44,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593284,
+      "title": "Cancellation Notification",
+      "description": "Notification rules and channels for order cancellation\nModule: Order\nSubmodule: Cancellation Notification",
+      "category_id": 6,
+      "sprint_id": 6,
+      "position": 45,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593285,
+      "title": "Ship Confirmation",
+      "description": "Ship confirmation notification\nModule: Order\nSubmodule: Ship Confirmation",
+      "category_id": 6,
+      "sprint_id": 6,
+      "position": 46,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593286,
+      "title": "Delivery Confirmation",
+      "description": "Delivery confirmation notification\nModule: Order\nSubmodule: Delivery Confirmation",
+      "category_id": 6,
+      "sprint_id": 6,
+      "position": 47,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593287,
+      "title": "Pickup Reminder Notification",
+      "description": "Pickup reminder notification for Click & Collect\nModule: Order\nSubmodule: Pickup Reminder Notification",
+      "category_id": 6,
+      "sprint_id": 6,
+      "position": 48,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593288,
+      "title": "Pickup Notification",
+      "description": "Pickup notification for Click & Collect\nModule: Order\nSubmodule: Pickup Notification",
+      "category_id": 6,
+      "sprint_id": 6,
+      "position": 49,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593289,
+      "title": "Notification with audit log",
+      "description": "Manual publish/release/notification with audit log (who/when/what)\nModule: Order\nSubmodule: Notification with audit log",
+      "category_id": 6,
+      "sprint_id": 6,
+      "position": 50,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593290,
+      "title": "UI/Dashboard",
+      "description": "SLA and order status dashboard\nModule: Order\nSubmodule: UI/Dashboard",
+      "category_id": 7,
+      "sprint_id": 6,
+      "position": 51,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593291,
+      "title": "Manual trigger release",
+      "description": "Manual publish/release/notification with audit log (who/when/what)\nModule: Order\nSubmodule: Manual trigger release",
+      "category_id": 7,
+      "sprint_id": 6,
+      "position": 52,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593292,
+      "title": "Order status report",
+      "description": "Order status report\nModule: Order\nSubmodule: Order status report",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 53,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593293,
+      "title": "Order cancellation report",
+      "description": "Order cancellation report\nModule: Order\nSubmodule: Order cancellation report",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 54,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593294,
+      "title": "Back-order report",
+      "description": "Back-order report\nModule: Order\nSubmodule: Back-order report",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 55,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593295,
+      "title": "Fail settlement",
+      "description": "Fail settlement report\nModule: Order\nSubmodule: Fail settlement",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 56,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593296,
+      "title": "Return report",
+      "description": "Return report\nModule: Order\nSubmodule: Return report",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 57,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593297,
+      "title": "Sale Report",
+      "description": "Finance / reconciliation reporting\nModule: Order\nSubmodule: Sale Report",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 58,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593298,
+      "title": "CN Report",
+      "description": "Credit Note Report\nModule: Order\nSubmodule: CN Report",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 59,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593299,
+      "title": "Shipping Fee Report",
+      "description": "Shipping Fee Report\nModule: Order\nSubmodule: Shipping Fee Report",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 60,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593300,
+      "title": "Discount Report",
+      "description": "Discount Report\nModule: Order\nSubmodule: Discount Report",
+      "category_id": 8,
+      "sprint_id": 7,
+      "position": 61,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593301,
+      "title": "Exceptional - Fail delivery",
+      "description": "Fail delivery handling\nModule: Order\nSubmodule: Exceptional handling",
+      "category_id": 9,
+      "sprint_id": 9,
+      "position": 62,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593302,
+      "title": "Exceptional - Reschedule",
+      "description": "Reschedule delivery handling\nModule: Order\nSubmodule: Exceptional handling",
+      "category_id": 9,
+      "sprint_id": 9,
+      "position": 63,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593303,
+      "title": "Exceptional - Return",
+      "description": "Return management / policy\nModule: Order\nSubmodule: Exceptional handling",
+      "category_id": 9,
+      "sprint_id": 9,
+      "position": 64,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593304,
+      "title": "Exceptional - No show",
+      "description": "Customer no show handling\nModule: Order\nSubmodule: Exceptional handling",
+      "category_id": 9,
+      "sprint_id": 9,
+      "position": 65,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "id": 1764562593305,
+      "title": "Exceptional - Exchange",
+      "description": "Exchange handling\nModule: Order\nSubmodule: Exceptional handling",
+      "category_id": 9,
+      "sprint_id": 9,
+      "position": 66,
+      "created_at": "2025-12-01T04:16:33.239Z",
+      "updated_at": "2025-12-01T04:16:33.239Z"
+    },
+    {
+      "title": "Create - Promising request",
+      "description": "TWD Ecom: There is no qty sperate from order create payload\nOMS: Consider follow promissing ID, One Release line per Location",
+      "category_id": 1,
+      "sprint_id": 3,
+      "position": 1,
+      "id": 1764563079776,
+      "created_at": "2025-12-01T04:24:39.776Z",
+      "updated_at": "2025-12-01T04:24:41.393Z"
+    }
+  ],
+  "checkpoints": [],
+  "milestones": [
+    {
+      "id": "ms-1",
+      "sprint": 1,
+      "note": "Half resource",
+      "type": "resource"
+    },
+    {
+      "id": "ms-2",
+      "sprint": 2,
+      "note": "New year leave",
+      "type": "holiday"
+    },
+    {
+      "id": "ms-5",
+      "sprint": 5,
+      "note": "CFR - Pre-SIT",
+      "type": "sit"
+    },
+    {
+      "id": "ms-6",
+      "sprint": 6,
+      "note": "CFR: Dev Completed",
+      "type": "dev-complete"
+    },
+    {
+      "id": "ms-7",
+      "sprint": 7,
+      "note": "CFR: Full SIT",
+      "type": "sit"
+    },
+    {
+      "id": "ms-8",
+      "sprint": 8,
+      "note": "DS: Dev Completed",
+      "type": "dev-complete"
+    },
+    {
+      "id": "ms-9",
+      "sprint": 9,
+      "note": "CFR Go Live",
+      "type": "golive"
+    }
+  ]
+}

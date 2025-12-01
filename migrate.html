@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap Data Migration</title>
+    <style>
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #0a0a0f;
+            color: #f8fafc;
+        }
+        .container {
+            background: #12121a;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+        }
+        h1 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+        }
+        .section {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        button {
+            background: #00d4ff;
+            color: #0a0a0f;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #00b8e6;
+        }
+        button.danger {
+            background: #ef4444;
+            color: white;
+        }
+        button.danger:hover {
+            background: #dc2626;
+        }
+        pre {
+            background: #1a1a25;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+        .success {
+            color: #22c55e;
+            font-weight: 600;
+        }
+        .error {
+            color: #ef4444;
+            font-weight: 600;
+        }
+        .info {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Roadmap Data Migration</h1>
+        <p>This tool migrates your backlog data from the old <code>product-roadmap.html</code> to the new Vue 3 app.</p>
+
+        <div class="section">
+            <h3>Step 1: Check Old Data</h3>
+            <button onclick="checkOldData()">Check Old Data</button>
+            <div id="oldDataStatus"></div>
+        </div>
+
+        <div class="section">
+            <h3>Step 2: Preview Migration</h3>
+            <button onclick="previewMigration()">Preview Migration</button>
+            <div id="migrationPreview"></div>
+        </div>
+
+        <div class="section">
+            <h3>Step 3: Migrate Data</h3>
+            <button onclick="migrateData()">Migrate to New App</button>
+            <div id="migrationStatus"></div>
+        </div>
+
+        <div class="section">
+            <h3>Step 4: Clear Old Data (Optional)</h3>
+            <button class="danger" onclick="clearOldData()">Clear Old Data</button>
+            <p class="info">⚠️ Only do this after confirming the migration worked!</p>
+            <div id="clearStatus"></div>
+        </div>
+    </div>
+
+    <script>
+        // Category name mapping (old -> new)
+        const categoryMapping = {
+            'order': { id: 1, name: 'Order', icon: '📦', color: 'order' },
+            'validation': { id: 2, name: 'Validation', icon: '✅', color: 'validation' },
+            'inventory': { id: 3, name: 'Inventory', icon: '📊', color: 'inventory' },
+            'payment': { id: 4, name: 'Payment', icon: '💳', color: 'payment' },
+            'orchestration': { id: 5, name: 'Orchestration', icon: '⚙️', color: 'orchestration' },
+            'notification': { id: 6, name: 'Notification', icon: '🔔', color: 'notification' },
+            'ui': { id: 7, name: 'UI', icon: '🎨', color: 'ui' },
+            'reporting': { id: 8, name: 'Reporting', icon: '📈', color: 'reporting' },
+            'exceptional': { id: 9, name: 'Exceptional', icon: '⚠️', color: 'exceptional' }
+        };
+
+        // Sprint mapping (old -> new)
+        const sprintMapping = {
+            'backlog': { id: 1, number: -1, name: 'Backlog' },
+            '0': { id: 2, number: 0, name: 'Sprint 0' },
+            '1': { id: 3, number: 1, name: 'Sprint 1' },
+            '2': { id: 4, number: 2, name: 'Sprint 2' },
+            '3': { id: 5, number: 3, name: 'Sprint 3' },
+            '4': { id: 6, number: 4, name: 'Sprint 4' },
+            '5': { id: 7, number: 5, name: 'Sprint 5' },
+            '6': { id: 8, number: 6, name: 'Sprint 6' },
+            '7': { id: 9, number: 7, name: 'Sprint 7' },
+            '8': { id: 10, number: 8, name: 'Sprint 8' },
+            '9': { id: 11, number: 9, name: 'Sprint 9' }
+        };
+
+        function checkOldData() {
+            const oldData = localStorage.getItem('roadmapState');
+            const statusDiv = document.getElementById('oldDataStatus');
+
+            if (!oldData) {
+                statusDiv.innerHTML = '<p class="error">❌ No old data found in localStorage</p>';
+                return;
+            }
+
+            try {
+                const parsed = JSON.parse(oldData);
+                const featureCount = parsed.features?.length || 0;
+                const customCategoryCount = parsed.customCategories?.length || 0;
+                const dynamicSprintCount = parsed.dynamicSprints?.length || 0;
+
+                statusDiv.innerHTML = `
+                    <p class="success">✅ Old data found!</p>
+                    <pre>${JSON.stringify({
+                        features: featureCount,
+                        customCategories: customCategoryCount,
+                        dynamicSprints: dynamicSprintCount
+                    }, null, 2)}</pre>
+                `;
+            } catch (e) {
+                statusDiv.innerHTML = `<p class="error">❌ Error parsing old data: ${e.message}</p>`;
+            }
+        }
+
+        function previewMigration() {
+            const oldData = localStorage.getItem('roadmapState');
+            const previewDiv = document.getElementById('migrationPreview');
+
+            if (!oldData) {
+                previewDiv.innerHTML = '<p class="error">❌ No old data to migrate</p>';
+                return;
+            }
+
+            try {
+                const old = JSON.parse(oldData);
+                const newData = convertOldToNew(old);
+
+                previewDiv.innerHTML = `
+                    <p class="success">✅ Migration preview ready</p>
+                    <h4>Will create:</h4>
+                    <pre>${JSON.stringify({
+                        categories: newData.categories.length,
+                        sprints: newData.sprints.length,
+                        features: newData.features.length,
+                        checkpoints: newData.checkpoints.length,
+                        milestones: newData.milestones.length
+                    }, null, 2)}</pre>
+                    <details>
+                        <summary style="cursor: pointer; color: #00d4ff;">View full new data structure</summary>
+                        <pre>${JSON.stringify(newData, null, 2)}</pre>
+                    </details>
+                `;
+            } catch (e) {
+                previewDiv.innerHTML = `<p class="error">❌ Error: ${e.message}</p>`;
+            }
+        }
+
+        function convertOldToNew(oldData) {
+            const newData = {
+                categories: [],
+                sprints: [],
+                features: [],
+                checkpoints: [],
+                milestones: []
+            };
+
+            // Convert categories
+            Object.keys(categoryMapping).forEach((key, index) => {
+                const cat = categoryMapping[key];
+                newData.categories.push({
+                    id: cat.id,
+                    name: oldData.categoryNames?.[key] || cat.name,
+                    icon: cat.icon,
+                    color: cat.color,
+                    position: index,
+                    is_custom: false,
+                    created_at: new Date().toISOString()
+                });
+            });
+
+            // Add custom categories
+            if (oldData.customCategories) {
+                oldData.customCategories.forEach((customCat, index) => {
+                    newData.categories.push({
+                        id: 100 + index,
+                        name: customCat.name,
+                        icon: customCat.icon || '📌',
+                        color: customCat.color || 'ui',
+                        position: Object.keys(categoryMapping).length + index,
+                        is_custom: true,
+                        created_at: new Date().toISOString()
+                    });
+                });
+            }
+
+            // Convert sprints
+            Object.keys(sprintMapping).forEach((key, index) => {
+                const sprint = sprintMapping[key];
+                newData.sprints.push({
+                    id: sprint.id,
+                    number: sprint.number,
+                    name: oldData.sprintNames?.[key] || sprint.name,
+                    position: index,
+                    created_at: new Date().toISOString()
+                });
+            });
+
+            // Add dynamic sprints
+            if (oldData.dynamicSprints) {
+                oldData.dynamicSprints.forEach((dynSprint, index) => {
+                    newData.sprints.push({
+                        id: 100 + index,
+                        number: dynSprint.number,
+                        name: dynSprint.name,
+                        position: Object.keys(sprintMapping).length + index,
+                        created_at: new Date().toISOString()
+                    });
+                });
+            }
+
+            // Convert features
+            if (oldData.features) {
+                oldData.features.forEach((feature, index) => {
+                    // Find category ID
+                    const categoryId = categoryMapping[feature.category]?.id || 1;
+
+                    // Find sprint ID
+                    let sprintId = sprintMapping[feature.sprint]?.id || 1;
+
+                    // Build description from old feature data
+                    const descParts = [];
+                    if (feature.detail) descParts.push(feature.detail);
+                    if (feature.module) descParts.push(`Module: ${feature.module}`);
+                    if (feature.submodule) descParts.push(`Submodule: ${feature.submodule}`);
+                    if (feature.assignee) descParts.push(`Assignee: ${feature.assignee}`);
+
+                    newData.features.push({
+                        id: Date.now() + index,
+                        title: feature.text,
+                        description: descParts.join('\n'),
+                        category_id: categoryId,
+                        sprint_id: sprintId,
+                        position: index,
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    });
+                });
+            }
+
+            // Convert checkpoints
+            if (oldData.checkpoints) {
+                oldData.checkpoints.forEach((checkpoint, index) => {
+                    newData.checkpoints.push({
+                        id: Date.now() + index,
+                        name: checkpoint.name || `Checkpoint ${index + 1}`,
+                        timestamp: checkpoint.timestamp || new Date().toISOString(),
+                        snapshot_json: JSON.stringify({
+                            categories: newData.categories,
+                            sprints: newData.sprints,
+                            features: newData.features
+                        }),
+                        created_at: checkpoint.timestamp || new Date().toISOString()
+                    });
+                });
+            }
+
+            // Add default milestones
+            newData.milestones = [
+                { id: 'ms-0', sprint: 0, note: '', type: 'normal' },
+                { id: 'ms-1', sprint: 1, note: 'Half resource', type: 'resource' },
+                { id: 'ms-2', sprint: 2, note: 'New year leave', type: 'holiday' },
+                { id: 'ms-5', sprint: 5, note: 'CFR - Pre-SIT', type: 'sit' },
+                { id: 'ms-6', sprint: 6, note: 'CFR: Dev Completed', type: 'dev-complete' },
+                { id: 'ms-7', sprint: 7, note: 'CFR: Full SIT', type: 'sit' },
+                { id: 'ms-8', sprint: 8, note: 'DS: Dev Completed', type: 'dev-complete' },
+                { id: 'ms-9', sprint: 9, note: 'CFR Go Live', type: 'golive' }
+            ];
+
+            return newData;
+        }
+
+        function migrateData() {
+            const oldData = localStorage.getItem('roadmapState');
+            const statusDiv = document.getElementById('migrationStatus');
+
+            if (!oldData) {
+                statusDiv.innerHTML = '<p class="error">❌ No old data to migrate</p>';
+                return;
+            }
+
+            try {
+                const old = JSON.parse(oldData);
+                const newData = convertOldToNew(old);
+
+                // Save to new localStorage key
+                localStorage.setItem('roadmap-data', JSON.stringify(newData));
+
+                statusDiv.innerHTML = `
+                    <p class="success">✅ Migration complete!</p>
+                    <p class="info">
+                        Migrated ${newData.features.length} features to the new Vue app.<br>
+                        Refresh <a href="http://localhost:5176/" style="color: #00d4ff;">http://localhost:5176/</a> to see your data!
+                    </p>
+                `;
+            } catch (e) {
+                statusDiv.innerHTML = `<p class="error">❌ Error: ${e.message}</p>`;
+            }
+        }
+
+        function clearOldData() {
+            if (!confirm('⚠️ Are you sure you want to clear the old data? This cannot be undone!')) {
+                return;
+            }
+
+            localStorage.removeItem('roadmapState');
+            document.getElementById('clearStatus').innerHTML = '<p class="success">✅ Old data cleared</p>';
+        }
+
+        // Auto-check on load
+        window.addEventListener('load', checkOldData);
+    </script>
+</body>
+</html>

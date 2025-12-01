@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Roadmap Data</title>
+    <style>
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #0a0a0f;
+            color: #f8fafc;
+        }
+        .container {
+            background: #12121a;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+        }
+        h1 { color: #00d4ff; margin-bottom: 1.5rem; }
+        .section {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            background: #1a1a25;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            color: #f8fafc;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+        button {
+            background: #00d4ff;
+            color: #0a0a0f;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        button:hover { background: #00b8e6; }
+        .success { color: #22c55e; font-weight: 600; }
+        .error { color: #ef4444; font-weight: 600; }
+        .code-block {
+            background: #1a1a25;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin: 1rem 0;
+        }
+        .copy-btn {
+            background: #22c55e;
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📥 Import Roadmap Data</h1>
+
+        <div class="section">
+            <h3>Step 1: Export from Old Roadmap</h3>
+            <p>1. Open your old <strong>product-roadmap.html</strong> file in your browser</p>
+            <p>2. Press <strong>F12</strong> to open Developer Console</p>
+            <p>3. Copy and paste this code into the console:</p>
+            <div class="code-block">console.log(JSON.stringify(localStorage.getItem('roadmapState')))</div>
+            <button class="copy-btn" onclick="copyExportScript()">Copy Script</button>
+            <p>4. Press Enter - it will show your data</p>
+            <p>5. Right-click the output and select "Copy string contents"</p>
+        </div>
+
+        <div class="section">
+            <h3>Step 2: Paste Data Here</h3>
+            <textarea id="importData" placeholder='Paste the exported data here (it should start with "{" and look like JSON)'></textarea>
+            <br>
+            <button onclick="importData()">Import Data</button>
+            <div id="importStatus"></div>
+        </div>
+
+        <div class="section">
+            <h3>Alternative: Direct Import Script</h3>
+            <p>If you have the old roadmap open in another tab, you can also:</p>
+            <p>1. Go to the old product-roadmap.html tab</p>
+            <p>2. Press F12, paste this in the console:</p>
+            <div class="code-block" id="directScript">
+// Copy this data
+const data = localStorage.getItem('roadmapState');
+prompt('Copy this data:', data);
+            </div>
+            <button class="copy-btn" onclick="copyDirectScript()">Copy Script</button>
+            <p>3. It will show a popup with your data - copy it</p>
+            <p>4. Come back here and paste it in Step 2</p>
+        </div>
+    </div>
+
+    <script>
+        const categoryMapping = {
+            'order': { id: 1, name: 'Order', icon: '📦', color: 'order' },
+            'validation': { id: 2, name: 'Validation', icon: '✅', color: 'validation' },
+            'inventory': { id: 3, name: 'Inventory', icon: '📊', color: 'inventory' },
+            'payment': { id: 4, name: 'Payment', icon: '💳', color: 'payment' },
+            'orchestration': { id: 5, name: 'Orchestration', icon: '⚙️', color: 'orchestration' },
+            'notification': { id: 6, name: 'Notification', icon: '🔔', color: 'notification' },
+            'ui': { id: 7, name: 'UI', icon: '🎨', color: 'ui' },
+            'reporting': { id: 8, name: 'Reporting', icon: '📈', color: 'reporting' },
+            'exceptional': { id: 9, name: 'Exceptional', icon: '⚠️', color: 'exceptional' }
+        };
+
+        const sprintMapping = {
+            'backlog': { id: 1, number: -1, name: 'Backlog' },
+            '0': { id: 2, number: 0, name: 'Sprint 0' },
+            '1': { id: 3, number: 1, name: 'Sprint 1' },
+            '2': { id: 4, number: 2, name: 'Sprint 2' },
+            '3': { id: 5, number: 3, name: 'Sprint 3' },
+            '4': { id: 6, number: 4, name: 'Sprint 4' },
+            '5': { id: 7, number: 5, name: 'Sprint 5' },
+            '6': { id: 8, number: 6, name: 'Sprint 6' },
+            '7': { id: 9, number: 7, name: 'Sprint 7' },
+            '8': { id: 10, number: 8, name: 'Sprint 8' },
+            '9': { id: 11, number: 9, name: 'Sprint 9' },
+            '8-9': { id: 10, number: 8, name: 'Sprint 8-9' }
+        };
+
+        function copyExportScript() {
+            navigator.clipboard.writeText("console.log(JSON.stringify(localStorage.getItem('roadmapState')))");
+            alert('Copied! Now paste this in the old roadmap console (F12)');
+        }
+
+        function copyDirectScript() {
+            navigator.clipboard.writeText("const data = localStorage.getItem('roadmapState'); prompt('Copy this data:', data);");
+            alert('Copied! Paste this in the old roadmap console (F12)');
+        }
+
+        function importData() {
+            const statusDiv = document.getElementById('importStatus');
+            const rawData = document.getElementById('importData').value.trim();
+
+            if (!rawData) {
+                statusDiv.innerHTML = '<p class="error">❌ Please paste data first</p>';
+                return;
+            }
+
+            try {
+                // Parse the data (might be double-stringified from console.log)
+                let oldData;
+                try {
+                    // Try parsing once
+                    oldData = JSON.parse(rawData);
+                } catch {
+                    // If failed, try parsing twice (console.log adds extra quotes)
+                    oldData = JSON.parse(JSON.parse(rawData));
+                }
+
+                if (!oldData || typeof oldData !== 'object') {
+                    throw new Error('Invalid data format');
+                }
+
+                // Convert to new format
+                const newData = {
+                    categories: [],
+                    sprints: [],
+                    features: [],
+                    checkpoints: []
+                };
+
+                // Migrate categories
+                Object.entries(categoryMapping).forEach(([key, cat], index) => {
+                    newData.categories.push({
+                        id: cat.id,
+                        name: oldData.categoryNames?.[key] || cat.name,
+                        icon: cat.icon,
+                        color: cat.color,
+                        position: index,
+                        is_custom: false,
+                        created_at: new Date().toISOString()
+                    });
+                });
+
+                // Add custom categories
+                if (oldData.customCategories) {
+                    oldData.customCategories.forEach((customCat, index) => {
+                        newData.categories.push({
+                            id: 100 + index,
+                            name: customCat.name,
+                            icon: customCat.icon || '📌',
+                            color: customCat.color || 'ui',
+                            position: 9 + index,
+                            is_custom: true,
+                            created_at: new Date().toISOString()
+                        });
+                    });
+                }
+
+                // Migrate sprints
+                Object.entries(sprintMapping).forEach(([key, sprint], index) => {
+                    newData.sprints.push({
+                        id: sprint.id,
+                        number: sprint.number,
+                        name: oldData.sprintNames?.[key] || sprint.name,
+                        position: index,
+                        created_at: new Date().toISOString()
+                    });
+                });
+
+                // Add dynamic sprints
+                if (oldData.dynamicSprints) {
+                    oldData.dynamicSprints.forEach((dynSprint, index) => {
+                        newData.sprints.push({
+                            id: 100 + index,
+                            number: dynSprint.number,
+                            name: dynSprint.name,
+                            position: 11 + index,
+                            created_at: new Date().toISOString()
+                        });
+                    });
+                }
+
+                // Migrate features
+                if (oldData.features && oldData.features.length > 0) {
+                    oldData.features.forEach((feature, index) => {
+                        const categoryId = categoryMapping[feature.category]?.id || 1;
+                        const sprintId = sprintMapping[feature.sprint]?.id || 1;
+
+                        const descParts = [];
+                        if (feature.detail) descParts.push(feature.detail);
+                        if (feature.module) descParts.push(`Module: ${feature.module}`);
+                        if (feature.submodule) descParts.push(`Submodule: ${feature.submodule}`);
+                        if (feature.assignee) descParts.push(`Assignee: ${feature.assignee}`);
+
+                        newData.features.push({
+                            id: Date.now() + index,
+                            title: feature.text,
+                            description: descParts.join('\n'),
+                            category_id: categoryId,
+                            sprint_id: sprintId,
+                            position: index,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    });
+                }
+
+                // Save to localStorage
+                localStorage.setItem('roadmap-data', JSON.stringify(newData));
+
+                statusDiv.innerHTML = `
+                    <p class="success">✅ Import successful!</p>
+                    <h4>Imported:</h4>
+                    <ul>
+                        <li>${newData.categories.length} categories</li>
+                        <li>${newData.sprints.length} sprints</li>
+                        <li>${newData.features.length} features</li>
+                    </ul>
+                    <p>Redirecting to main app in 3 seconds...</p>
+                `;
+
+                // Redirect to main app
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 3000);
+
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <p class="error">❌ Import failed</p>
+                    <p>${error.message}</p>
+                    <p>Make sure you copied the data correctly from the console.</p>
+                `;
+                console.error('Import error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Migration Tool</title>
+    <style>
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #0a0a0f;
+            color: #f8fafc;
+        }
+        .container {
+            background: #12121a;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+        }
+        h1 { color: #00d4ff; margin-bottom: 1.5rem; }
+        button {
+            background: #00d4ff;
+            color: #0a0a0f;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-size: 1rem;
+        }
+        button:hover { background: #00b8e6; }
+        .success { color: #22c55e; font-weight: 600; margin-top: 1rem; }
+        .error { color: #ef4444; font-weight: 600; margin-top: 1rem; }
+        pre {
+            background: #1a1a25;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Migrate Your Roadmap Data</h1>
+        <p>This tool will automatically migrate all 67 features from your old roadmap to the new Vue 3 app.</p>
+
+        <button onclick="migrateData()" style="font-size: 1.25rem; padding: 1rem 2rem;">
+            ✨ Migrate Now
+        </button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const OLD_DATA = {"sprintNames":{"0":"Sprint 0","1":"Sprint 1","2":"Sprint 2","3":"Sprint 3","4":"Sprint 4","5":"Sprint 5","6":"Sprint 6","7":"Sprint 7","backlog":"Backlog","8-9":"Sprint 8-9"},"categoryNames":{"order":"","validation":"","inventory":"","payment":"","orchestration":"","notification":"","ui":"","reporting":"","exceptional":""},"features":[{"id":"Order self service - Cancel","text":"Order self service - Cancel","category":"order","sprint":"backlog","detail":"Cancel via UI","module":"Order","submodule":"Order self service","assignee":"","isCustom":false},{"id":"Order self service - Modify","text":"Order self service - Modify","category":"order","sprint":"backlog","detail":"Modification: allow CS to change customer address","module":"Order","submodule":"Order self service","assignee":"","isCustom":false},{"id":"Create - Order Draft","text":"Create - Order Draft","category":"order","sprint":"1","detail":"TWD Ecom: No qty separate from order create payload. OMS: Consider follow promising ID, One Release line per Location","module":"Order","submodule":"Create - Order Draft","assignee":"Keng","isCustom":false},{"id":"Order & item charges - Discount","text":"Order & item charges - Discount","category":"order","sprint":"2","detail":"Disc./Promo/Coupon handling","module":"Order","submodule":"Order & item charges","assignee":"","isCustom":false},{"id":"Order & item charges - Shipping","text":"Order & item charges - Shipping","category":"order","sprint":"2","detail":"Shipping fee. Current MAO-FMS (CFR, DS): ECOM>MAO order header, MAO>Mule prorate to line level","module":"Order","submodule":"Order & item charges","assignee":"","isCustom":false},{"id":"Order calculation","text":"Order calculation","category":"order","sprint":"2","detail":"Calculate order & line amount: subtotal, total, discount amount, tax amount, etc.","module":"Order","submodule":"Order calculation","assignee":"","isCustom":false},{"id":"Release","text":"Release","category":"order","sprint":"2","detail":"Logic / rule / period","module":"Order","submodule":"Release","assignee":"","isCustom":false},{"id":"Order status tracking","text":"Order status tracking","category":"order","sprint":"3","detail":"Fulfillment status (Picking, Packing, Packed, Ready To Ship) - Order-status-update from Fulfillment System","module":"Order","submodule":"Order status tracking","assignee":"","isCustom":false},{"id":"Delivery status tracking","text":"Delivery status tracking","category":"order","sprint":"3","detail":"Track from shipped until delivered","module":"Order","submodule":"Delivery status tracking","assignee":"","isCustom":false},{"id":"Pre-Order management","text":"Pre-Order management","category":"order","sprint":"3","detail":"Pre-order lifecycle management","module":"Order","submodule":"Pre-Order management","assignee":"","isCustom":false},{"id":"Order update/publish","text":"Order update/publish","category":"order","sprint":"3","detail":"Publish per order / status: Open, Release, Picked (CC), Shipped, Delivered, Partial/Fully cancel","module":"Order","submodule":"Order update/publish","assignee":"","isCustom":false},{"id":"Order cancel","text":"Order cancel","category":"order","sprint":"3","detail":"Full/partial cancel by item and qty","module":"Order","submodule":"Order cancel","assignee":"","isCustom":false},{"id":"Order modification","text":"Order modification","category":"order","sprint":"3","detail":"Allow order info updates, e.g. payment status, update customer address","module":"Order","submodule":"Order modification","assignee":"","isCustom":false},{"id":"Order inquiry interface","text":"Order inquiry interface","category":"order","sprint":"6","detail":"Historical order / get order with specific template, e.g. Slick return","module":"Order","submodule":"Order inquiry interface","assignee":"","isCustom":false},{"id":"ETA calculation","text":"ETA calculation","category":"order","sprint":"6","detail":"Calculate & show ETA when order is placed","module":"Order","submodule":"ETA calculation","assignee":"","isCustom":false},{"id":"Backorder management","text":"Backorder management","category":"order","sprint":"6","detail":"Partial / full backorder handling","module":"Order","submodule":"Backorder management","assignee":"","isCustom":false},{"id":"Multiple shipment","text":"Multiple shipment","category":"order","sprint":"8-9","detail":"Multiple fulfillment location","module":"Order","submodule":"Multiple shipment","assignee":"","isCustom":false},{"id":"Validation - Order Draft","text":"Validation - Order Draft","category":"validation","sprint":"1","detail":"System e.g. data type/structure, key. Validate flag allocation: True/False?","module":"Order","submodule":"Validation - Order Draft","assignee":"","isCustom":false},{"id":"System Validation","text":"System Validation","category":"validation","sprint":"2","detail":"System validation: data type/structure, key","module":"Order","submodule":"Validation","assignee":"","isCustom":false},{"id":"Functional Validation","text":"Functional Validation","category":"validation","sprint":"2","detail":"Mandatory fields, list of value, relation of fields. Example: CC delivery -> ECOM sends pickup address; Mirakl item sends release group as seller id/name","module":"Order","submodule":"Validation","assignee":"","isCustom":false},{"id":"Item type - Tops Prime","text":"Item type - Tops Prime","category":"validation","sprint":"2","detail":"Item Tops Prime handling","module":"Order","submodule":"Item type","assignee":"","isCustom":false},{"id":"Item type - Pack Unit","text":"Item type - Pack Unit","category":"validation","sprint":"2","detail":"Pack of unit item","module":"Order","submodule":"Item type","assignee":"","isCustom":false},{"id":"Item type - Pack Weight","text":"Item type - Pack Weight","category":"validation","sprint":"2","detail":"Pack of weight item","module":"Order","submodule":"Item type","assignee":"","isCustom":false},{"id":"Enrichment","text":"Enrichment","category":"validation","sprint":"2","detail":"Image URL from OMS Item Master, shortname, primary barcode (for Tops Prime?)","module":"Order","submodule":"Enrichement","assignee":"","isCustom":false},{"id":"Item type - Mirakl","text":"Item type - Mirakl","category":"validation","sprint":"8-9","detail":"Mirakl item handling","module":"Order","submodule":"Item type","assignee":"","isCustom":false},{"id":"Item type - MJT","text":"Item type - MJT","category":"validation","sprint":"8-9","detail":"MJT item handling","module":"Order","submodule":"Item type","assignee":"","isCustom":false},{"id":"Allocation - Initial","text":"Allocation - Initial","category":"inventory","sprint":"0","detail":"On hand, Safety, Reserve","module":"Inventory","submodule":"Allocation","assignee":"All Dev","isCustom":false},{"id":"Allocation - Order Draft","text":"Allocation - Order Draft","category":"inventory","sprint":"1","detail":"Force Allocation","module":"Order","submodule":"Allocation - Order Draft","assignee":"","isCustom":false},{"id":"Availability Check + Backorder","text":"Availability Check + Backorder","category":"inventory","sprint":"1","detail":"Availability Check + Backorder management","module":"Order","submodule":"Availability Check + Backorder management","assignee":"","isCustom":false},{"id":"Reservation - Order Draft","text":"Reservation - Order Draft","category":"inventory","sprint":"1","detail":"Reservation / Cancel / Auto Expire","module":"Order","submodule":"Reservation - Order Draft","assignee":"","isCustom":false},{"id":"Reallocation","text":"Reallocation","category":"inventory","sprint":"1","detail":"Job / frequency. Example: unpaid -> paid triggers reallocation job","module":"Order","submodule":"Reallocation","assignee":"","isCustom":false},{"id":"Allocation - No Reservation","text":"Allocation - No Reservation","category":"inventory","sprint":"2","detail":"Force Allocation when no Reservation ID","module":"Order","submodule":"Allocation","assignee":"","isCustom":false},{"id":"Reservation - No Reservation","text":"Reservation - No Reservation","category":"inventory","sprint":"2","detail":"Reservation / Cancel / Auto Expire when no Reservation ID","module":"Order","submodule":"Reservation","assignee":"","isCustom":false},{"id":"Reallocation - Sprint 2","text":"Reallocation - Sprint 2","category":"inventory","sprint":"2","detail":"Job / frequency. Example: unpaid -> paid triggers reallocation job","module":"Order","submodule":"Reallocation","assignee":"","isCustom":false},{"id":"Inventory UI","text":"Inventory UI","category":"inventory","sprint":"4","detail":"Inventory management UI","module":"Inventory","submodule":"Inventory UI","assignee":"","isCustom":false},{"id":"Allocation logic","text":"Allocation logic","category":"inventory","sprint":"8-9","detail":"Focus minimize split, special brand handling","module":"Order","submodule":"Allocation logic","assignee":"","isCustom":false},{"id":"Payment type - Pre-paid","text":"Payment type - Pre-paid","category":"payment","sprint":"2","detail":"Pre-paid: insert/update transaction and payment status flow","module":"Order","submodule":"Payment type","assignee":"","isCustom":false},{"id":"Payment type - Post-paid","text":"Payment type - Post-paid","category":"payment","sprint":"2","detail":"Post-paid: insert/update transaction and payment status flow","module":"Order","submodule":"Payment type","assignee":"","isCustom":false},{"id":"Payment type - MKP","text":"Payment type - MKP","category":"payment","sprint":"2","detail":"Marketplace payment (MKP payment)","module":"Order","submodule":"Payment type","assignee":"","isCustom":false},{"id":"Single/multiple payment","text":"Single/multiple payment","category":"payment","sprint":"2","detail":"Mix payment, e.g. T1 + other","module":"Order","submodule":"Single/multiple payment","assignee":"","isCustom":false},{"id":"Orchestration - STD-HD","text":"Orchestration - STD-HD","category":"orchestration","sprint":"2","detail":"Standard Home Delivery orchestration","module":"Order","submodule":"Orchestration by delivery method","assignee":"","isCustom":false},{"id":"Orchestration - EXP-HD","text":"Orchestration - EXP-HD","category":"orchestration","sprint":"2","detail":"Express Home Delivery orchestration","module":"Order","submodule":"Orchestration by delivery method","assignee":"","isCustom":false},{"id":"Orchestration - STD-CC","text":"Orchestration - STD-CC","category":"orchestration","sprint":"2","detail":"Standard Click & Collect (same/other store)","module":"Order","submodule":"Orchestration by delivery method","assignee":"","isCustom":false},{"id":"Orchestration - EXP-HD DS","text":"Orchestration - EXP-HD DS","category":"orchestration","sprint":"8-9","detail":"EXP-HD (DS 3hrs.)","module":"Order","submodule":"Orchestration by delivery method","assignee":"","isCustom":false},{"id":"Orchestration - EXP-CC DS","text":"Orchestration - EXP-CC DS","category":"orchestration","sprint":"8-9","detail":"EXP-CC (DS 1hr.)","module":"Order","submodule":"Orchestration by delivery method","assignee":"","isCustom":false},{"id":"Cancellation Notification","text":"Cancellation Notification","category":"notification","sprint":"4","detail":"Notification rules and channels for order cancellation","module":"Order","submodule":"Cancellation Notification","assignee":"","isCustom":false},{"id":"Ship Confirmation","text":"Ship Confirmation","category":"notification","sprint":"4","detail":"Ship confirmation notification","module":"Order","submodule":"Ship Confirmation","assignee":"","isCustom":false},{"id":"Delivery Confirmation","text":"Delivery Confirmation","category":"notification","sprint":"4","detail":"Delivery confirmation notification","module":"Order","submodule":"Delivery Confirmation","assignee":"","isCustom":false},{"id":"Pickup Reminder Notification","text":"Pickup Reminder Notification","category":"notification","sprint":"4","detail":"Pickup reminder notification for Click & Collect","module":"Order","submodule":"Pickup Reminder Notification","assignee":"","isCustom":false},{"id":"Pickup Notification","text":"Pickup Notification","category":"notification","sprint":"4","detail":"Pickup notification for Click & Collect","module":"Order","submodule":"Pickup Notification","assignee":"","isCustom":false},{"id":"Notification with audit log","text":"Notification with audit log","category":"notification","sprint":"4","detail":"Manual publish/release/notification with audit log (who/when/what)","module":"Order","submodule":"Notification with audit log","assignee":"","isCustom":false},{"id":"UI/Dashboard","text":"UI/Dashboard","category":"ui","sprint":"4","detail":"SLA and order status dashboard","module":"Order","submodule":"UI/Dashboard","assignee":"","isCustom":false},{"id":"Manual trigger release","text":"Manual trigger release","category":"ui","sprint":"4","detail":"Manual publish/release/notification with audit log (who/when/what)","module":"Order","submodule":"Manual trigger release","assignee":"","isCustom":false},{"id":"Order status report","text":"Order status report","category":"reporting","sprint":"5","detail":"Order status report","module":"Order","submodule":"Order status report","assignee":"","isCustom":false},{"id":"Order cancellation report","text":"Order cancellation report","category":"reporting","sprint":"5","detail":"Order cancellation report","module":"Order","submodule":"Order cancellation report","assignee":"","isCustom":false},{"id":"Back-order report","text":"Back-order report","category":"reporting","sprint":"5","detail":"Back-order report","module":"Order","submodule":"Back-order report","assignee":"","isCustom":false},{"id":"Fail settlement","text":"Fail settlement","category":"reporting","sprint":"5","detail":"Fail settlement report","module":"Order","submodule":"Fail settlement","assignee":"","isCustom":false},{"id":"Return report","text":"Return report","category":"reporting","sprint":"5","detail":"Return report","module":"Order","submodule":"Return report","assignee":"","isCustom":false},{"id":"Sale Report","text":"Sale Report","category":"reporting","sprint":"5","detail":"Finance / reconciliation reporting","module":"Order","submodule":"Sale Report","assignee":"","isCustom":false},{"id":"CN Report","text":"CN Report","category":"reporting","sprint":"5","detail":"Credit Note Report","module":"Order","submodule":"CN Report","assignee":"","isCustom":false},{"id":"Shipping Fee Report","text":"Shipping Fee Report","category":"reporting","sprint":"5","detail":"Shipping Fee Report","module":"Order","submodule":"Shipping Fee Report","assignee":"","isCustom":false},{"id":"Discount Report","text":"Discount Report","category":"reporting","sprint":"5","detail":"Discount Report","module":"Order","submodule":"Discount Report","assignee":"","isCustom":false},{"id":"Exceptional - Fail delivery","text":"Exceptional - Fail delivery","category":"exceptional","sprint":"7","detail":"Fail delivery handling","module":"Order","submodule":"Exceptional handling","assignee":"","isCustom":false},{"id":"Exceptional - Reschedule","text":"Exceptional - Reschedule","category":"exceptional","sprint":"7","detail":"Reschedule delivery handling","module":"Order","submodule":"Exceptional handling","assignee":"","isCustom":false},{"id":"Exceptional - Return","text":"Exceptional - Return","category":"exceptional","sprint":"7","detail":"Return management / policy","module":"Order","submodule":"Exceptional handling","assignee":"","isCustom":false},{"id":"Exceptional - No show","text":"Exceptional - No show","category":"exceptional","sprint":"7","detail":"Customer no show handling","module":"Order","submodule":"Exceptional handling","assignee":"","isCustom":false},{"id":"Exceptional - Exchange","text":"Exceptional - Exchange","category":"exceptional","sprint":"7","detail":"Exchange handling","module":"Order","submodule":"Exceptional handling","assignee":"","isCustom":false}]};
+
+        const categoryMapping = {
+            'order': { id: 1, name: 'Order', icon: '📦', color: 'order' },
+            'validation': { id: 2, name: 'Validation', icon: '✅', color: 'validation' },
+            'inventory': { id: 3, name: 'Inventory', icon: '📊', color: 'inventory' },
+            'payment': { id: 4, name: 'Payment', icon: '💳', color: 'payment' },
+            'orchestration': { id: 5, name: 'Orchestration', icon: '⚙️', color: 'orchestration' },
+            'notification': { id: 6, name: 'Notification', icon: '🔔', color: 'notification' },
+            'ui': { id: 7, name: 'UI', icon: '🎨', color: 'ui' },
+            'reporting': { id: 8, name: 'Reporting', icon: '📈', color: 'reporting' },
+            'exceptional': { id: 9, name: 'Exceptional', icon: '⚠️', color: 'exceptional' }
+        };
+
+        const sprintMapping = {
+            'backlog': { id: 1, number: -1, name: 'Backlog' },
+            '0': { id: 2, number: 0, name: 'Sprint 0' },
+            '1': { id: 3, number: 1, name: 'Sprint 1' },
+            '2': { id: 4, number: 2, name: 'Sprint 2' },
+            '3': { id: 5, number: 3, name: 'Sprint 3' },
+            '4': { id: 6, number: 4, name: 'Sprint 4' },
+            '5': { id: 7, number: 5, name: 'Sprint 5' },
+            '6': { id: 8, number: 6, name: 'Sprint 6' },
+            '7': { id: 9, number: 7, name: 'Sprint 7' },
+            '8': { id: 10, number: 8, name: 'Sprint 8' },
+            '9': { id: 11, number: 9, name: 'Sprint 9' },
+            '8-9': { id: 10, number: 8, name: 'Sprint 8' }
+        };
+
+        function migrateData() {
+            const resultDiv = document.getElementById('result');
+
+            try {
+                const newData = {
+                    categories: [],
+                    sprints: [],
+                    features: [],
+                    checkpoints: [],
+                    milestones: []
+                };
+
+                // Migrate categories
+                Object.entries(categoryMapping).forEach(([key, cat], index) => {
+                    newData.categories.push({
+                        id: cat.id,
+                        name: cat.name,
+                        icon: cat.icon,
+                        color: cat.color,
+                        position: index,
+                        is_custom: false,
+                        created_at: new Date().toISOString()
+                    });
+                });
+
+                // Migrate sprints (deduplicate by id)
+                const sprintMap = new Map();
+                Object.entries(sprintMapping).forEach(([key, sprint]) => {
+                    if (!sprintMap.has(sprint.id)) {
+                        sprintMap.set(sprint.id, {
+                            id: sprint.id,
+                            number: sprint.number,
+                            name: OLD_DATA.sprintNames?.[key] || sprint.name,
+                            position: sprint.id,
+                            created_at: new Date().toISOString()
+                        });
+                    }
+                });
+                newData.sprints = Array.from(sprintMap.values()).sort((a, b) => a.number - b.number);
+
+                // Migrate features
+                if (OLD_DATA.features && OLD_DATA.features.length > 0) {
+                    OLD_DATA.features.forEach((feature, index) => {
+                        const categoryId = categoryMapping[feature.category]?.id || 1;
+                        const sprintId = sprintMapping[feature.sprint]?.id || 1;
+
+                        const descParts = [];
+                        if (feature.detail) descParts.push(feature.detail);
+                        if (feature.module) descParts.push(`Module: ${feature.module}`);
+                        if (feature.submodule) descParts.push(`Submodule: ${feature.submodule}`);
+                        if (feature.assignee) descParts.push(`Assignee: ${feature.assignee}`);
+
+                        newData.features.push({
+                            id: Date.now() + index,
+                            title: feature.text,
+                            description: descParts.join('\n'),
+                            category_id: categoryId,
+                            sprint_id: sprintId,
+                            position: index,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        });
+                    });
+                }
+
+                // Add default milestones
+                newData.milestones = [
+                    { id: 'ms-0', sprint: 0, note: '', type: 'normal' },
+                    { id: 'ms-1', sprint: 1, note: 'Half resource', type: 'resource' },
+                    { id: 'ms-2', sprint: 2, note: 'New year leave', type: 'holiday' },
+                    { id: 'ms-5', sprint: 5, note: 'CFR - Pre-SIT', type: 'sit' },
+                    { id: 'ms-6', sprint: 6, note: 'CFR: Dev Completed', type: 'dev-complete' },
+                    { id: 'ms-7', sprint: 7, note: 'CFR: Full SIT', type: 'sit' },
+                    { id: 'ms-8', sprint: 8, note: 'DS: Dev Completed', type: 'dev-complete' },
+                    { id: 'ms-9', sprint: 9, note: 'CFR Go Live', type: 'golive' }
+                ];
+
+                // Save to API server
+                fetch('http://localhost:3001/api/roadmap', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newData),
+                })
+                .then(response => response.json())
+                .then(result => {
+                    resultDiv.innerHTML = `
+                        <p class="success">✅ Migration Complete!</p>
+                        <h3>Migrated:</h3>
+                        <ul>
+                            <li>${newData.categories.length} categories</li>
+                            <li>${newData.sprints.length} sprints</li>
+                            <li>${newData.features.length} features</li>
+                            <li>${newData.milestones.length} milestones</li>
+                        </ul>
+                        <p style="margin-top: 1.5rem;">
+                            <strong>Data saved to file!</strong><br>
+                            Go to <a href="/" style="color: #00d4ff;">the main app</a> to see your migrated data!
+                        </p>
+                    `;
+
+                    // Auto-redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
+                })
+                .catch(err => {
+                    resultDiv.innerHTML = `
+                        <p class="error">❌ Migration failed to save to API</p>
+                        <pre>${err.message}</pre>
+                        <p style="margin-top: 1rem;">Make sure the API server is running on port 3001</p>
+                    `;
+                });
+
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <p class="error">❌ Migration failed</p>
+                    <pre>${error.message}\n\n${error.stack}</pre>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
