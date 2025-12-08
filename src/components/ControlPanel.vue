@@ -105,9 +105,6 @@ defineEmits<{
 
 <style scoped>
 .control-panel {
-  position: sticky;
-  top: 0;
-  z-index: 50;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
   padding: 1rem 1.5rem;

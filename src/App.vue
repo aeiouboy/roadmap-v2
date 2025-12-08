@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoadmapStore } from './stores/roadmap'
 import { loadRoadmapData, saveRoadmapData } from './services/api'
 import ControlPanel from './components/ControlPanel.vue'
@@ -13,6 +13,13 @@ import MilestoneModal from './components/MilestoneModal.vue'
 import type { Category, Sprint, Feature, TimelineMilestone } from './types'
 
 const store = useRoadmapStore()
+
+// Computed properties for sticky header
+const sortedSprints = computed(() => store.sortedSprints)
+const gridTemplateColumns = computed(() => {
+  const sprintColumns = sortedSprints.value.map(() => 'minmax(180px, 220px)').join(' ')
+  return `200px ${sprintColumns}`
+})
 
 // Apply theme to document root
 watch(() => store.theme, (newTheme) => {
@@ -220,25 +227,49 @@ function toggleTheme() {
       @toggle-theme="toggleTheme"
     />
 
-    <!-- Main Content - Timeline sticky, Grid scrollable -->
-    <main class="roadmap-main">
-      <!-- Checkpoint Timeline (sticky) -->
+    <!-- Sticky Header Section (outside main for proper sticky behavior) -->
+    <div class="sticky-header-wrapper">
+      <!-- Checkpoint Timeline -->
       <CheckpointTimeline
         @edit-milestone="handleEditMilestone"
         @new-milestone="handleNewMilestone"
         @milestone-moved="saveToFile"
       />
 
-      <div class="roadmap-scroll-container">
-        <!-- Main Grid -->
-        <RoadmapGrid
-          @new-feature="handleNewFeature"
-          @edit-feature="handleEditFeature"
-          @edit-category="handleEditCategory"
-          @edit-sprint="handleEditSprint"
-          @save="saveToFile"
-        />
+      <!-- Sprint Headers (sticky along with timeline) -->
+      <div class="sprint-header-row" :style="{ gridTemplateColumns }">
+        <div class="header-cell category-header">
+          <span class="text-text-secondary text-sm font-medium">Category</span>
+        </div>
+        <div
+          v-for="sprint in sortedSprints"
+          :key="sprint.id"
+          class="header-cell sprint-header"
+          @dblclick="handleEditSprint(sprint)"
+          title="Double-click to edit"
+        >
+          <span :class="['sprint-label', sprint.number === -1 ? 'backlog' : '']">
+            <span v-if="sprint.number === -1">{{ sprint.name }}</span>
+            <span v-else>Sprint {{ sprint.number }}</span>
+          </span>
+          <span v-if="sprint.name !== `Sprint ${sprint.number}` && sprint.number !== -1" class="sprint-name">
+            {{ sprint.name }}
+          </span>
+        </div>
       </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="roadmap-main">
+      <!-- Main Grid (body only, no headers) -->
+      <RoadmapGrid
+        :hide-headers="true"
+        @new-feature="handleNewFeature"
+        @edit-feature="handleEditFeature"
+        @edit-category="handleEditCategory"
+        @edit-sprint="handleEditSprint"
+        @save="saveToFile"
+      />
     </main>
 
     <!-- Modals -->
@@ -330,8 +361,62 @@ function toggleTheme() {
   padding: 1rem;
 }
 
-.roadmap-scroll-container {
-  overflow-x: auto;
-  overflow-y: visible;
+.sticky-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-dark);
+  padding: 0 1rem;
+}
+
+.sprint-header-row {
+  display: grid;
+  gap: 0;
+  min-width: max-content;
+  background: var(--bg-dark);
+}
+
+.header-cell {
+  padding: 0.75rem;
+  text-align: center;
+  border-bottom: 2px solid var(--border);
+  background: var(--bg-dark);
+}
+
+.category-header {
+  position: sticky;
+  left: 0;
+  z-index: 110;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.sprint-header {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.sprint-header:hover {
+  background: var(--bg-hover);
+}
+
+.sprint-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.sprint-label.backlog {
+  color: var(--text-muted);
+}
+
+.sprint-name {
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 </style>

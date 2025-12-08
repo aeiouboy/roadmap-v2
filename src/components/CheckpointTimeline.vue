@@ -1,30 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoadmapStore } from '../stores/roadmap'
 import type { TimelineMilestone } from '../types'
 
 const store = useRoadmapStore()
-
-// Scroll effect for sticky timeline
-const timelineContainerRef = ref<HTMLElement | null>(null)
-
-function handleScroll() {
-  if (timelineContainerRef.value) {
-    if (window.scrollY > 0) {
-      timelineContainerRef.value.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.25)'
-    } else {
-      timelineContainerRef.value.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)'
-    }
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
 
 const emit = defineEmits<{
   editMilestone: [milestone: TimelineMilestone]
@@ -116,10 +95,15 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
 </script>
 
 <template>
-  <div v-if="store.showTimeline" ref="timelineContainerRef" class="checkpoint-timeline-container">
+  <div v-if="store.showTimeline" class="checkpoint-timeline-container">
     <div class="checkpoint-timeline" :style="{ gridTemplateColumns }">
-      <!-- Timeline label in first column -->
-      <div class="timeline-label">Timeline</div>
+      <!-- Timeline label and Add button in first column -->
+      <div class="timeline-label-container">
+        <span class="timeline-label">Timeline</span>
+        <button class="timeline-add-btn" @click="emit('newMilestone')" title="Add Milestone">
+          +
+        </button>
+      </div>
       <!-- Timeline line -->
       <div class="checkpoint-timeline-line"></div>
 
@@ -166,26 +150,14 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
         </div>
       </div>
     </div>
-
-    <!-- Add new milestone button -->
-    <div class="timeline-controls">
-      <button class="timeline-btn" @click="emit('newMilestone')">
-        + Add Milestone
-      </button>
-    </div>
   </div>
 </template>
 
 <style scoped>
 .checkpoint-timeline-container {
-  position: sticky;
-  top: 0;
-  z-index: 999;
+  position: relative;
   padding: 0;
   min-width: max-content;
-  background: var(--bg-dark);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: box-shadow 0.3s ease;
 }
 
 .checkpoint-timeline {
@@ -199,14 +171,44 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
   overflow: visible;
 }
 
-.timeline-label {
+.timeline-label-container {
   grid-column: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.timeline-label {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--accent-cyan);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 0.75rem;
+}
+
+.timeline-add-btn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 4px;
+  color: var(--accent-cyan);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.timeline-add-btn:hover {
+  background: rgba(0, 212, 255, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
 }
 
 .checkpoint-timeline-line {
@@ -397,27 +399,5 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
 .checkpoint-btn.delete:hover {
   border-color: var(--accent-red);
   color: var(--accent-red);
-}
-
-.timeline-controls {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.timeline-btn {
-  padding: 0.5rem 1rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--accent-cyan);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.timeline-btn:hover {
-  background: rgba(0, 212, 255, 0.1);
-  border-color: var(--accent-cyan);
 }
 </style>
