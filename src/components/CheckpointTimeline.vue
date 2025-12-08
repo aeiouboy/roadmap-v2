@@ -6,14 +6,14 @@ import type { TimelineMilestone } from '../types'
 const store = useRoadmapStore()
 
 // Scroll effect for sticky timeline
-const timelineRef = ref<HTMLElement | null>(null)
+const timelineContainerRef = ref<HTMLElement | null>(null)
 
 function handleScroll() {
-  if (timelineRef.value) {
+  if (timelineContainerRef.value) {
     if (window.scrollY > 0) {
-      timelineRef.value.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.25)'
+      timelineContainerRef.value.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.25)'
     } else {
-      timelineRef.value.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)'
+      timelineContainerRef.value.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)'
     }
   }
 }
@@ -116,8 +116,8 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
 </script>
 
 <template>
-  <div v-if="store.showTimeline" class="checkpoint-timeline-container">
-    <div ref="timelineRef" class="checkpoint-timeline" :style="{ gridTemplateColumns }">
+  <div v-if="store.showTimeline" ref="timelineContainerRef" class="checkpoint-timeline-container">
+    <div class="checkpoint-timeline" :style="{ gridTemplateColumns }">
       <!-- Timeline label in first column -->
       <div class="timeline-label">Timeline</div>
       <!-- Timeline line -->
@@ -178,15 +178,18 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
 
 <style scoped>
 .checkpoint-timeline-container {
-  position: relative;
-  padding: 0;
-  min-width: max-content;
-}
-
-.checkpoint-timeline {
   position: sticky;
   top: 0;
   z-index: 999;
+  padding: 0;
+  min-width: max-content;
+  background: var(--bg-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+.checkpoint-timeline {
+  position: relative;
   padding: 3rem 0 1rem 0;
   min-height: 100px;
   display: grid;
@@ -194,9 +197,6 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
   min-width: max-content;
   align-items: center;
   overflow: visible;
-  background: var(--bg-dark);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: box-shadow 0.3s ease;
 }
 
 .timeline-label {
