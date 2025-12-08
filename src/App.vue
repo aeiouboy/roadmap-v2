@@ -267,7 +267,6 @@ function toggleTheme() {
         @new-feature="handleNewFeature"
         @edit-feature="handleEditFeature"
         @edit-category="handleEditCategory"
-        @edit-sprint="handleEditSprint"
         @save="saveToFile"
       />
     </main>

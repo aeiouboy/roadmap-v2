@@ -2,9 +2,9 @@
 import { computed } from 'vue'
 import { useRoadmapStore } from '../stores/roadmap'
 import CategoryRow from './CategoryRow.vue'
-import type { Category, Sprint, Feature } from '../types'
+import type { Category, Feature } from '../types'
 
-const props = defineProps<{
+defineProps<{
   hideHeaders?: boolean
 }>()
 
@@ -14,7 +14,6 @@ const emit = defineEmits<{
   'new-feature': [categoryId: number, sprintId: number]
   'edit-feature': [feature: Feature]
   'edit-category': [category: Category]
-  'edit-sprint': [sprint: Sprint]
   save: []
 }>()
 
@@ -37,10 +36,6 @@ function handleEditFeature(feature: Feature) {
 
 function handleEditCategory(category: Category) {
   emit('edit-category', category)
-}
-
-function handleEditSprint(sprint: Sprint) {
-  emit('edit-sprint', sprint)
 }
 
 function handleSave() {
