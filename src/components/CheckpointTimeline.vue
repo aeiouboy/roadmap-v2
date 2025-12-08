@@ -1,9 +1,30 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRoadmapStore } from '../stores/roadmap'
 import type { TimelineMilestone } from '../types'
 
 const store = useRoadmapStore()
+
+// Scroll effect for sticky timeline
+const timelineRef = ref<HTMLElement | null>(null)
+
+function handleScroll() {
+  if (timelineRef.value) {
+    if (window.scrollY > 0) {
+      timelineRef.value.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.25)'
+    } else {
+      timelineRef.value.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)'
+    }
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 
 const emit = defineEmits<{
   editMilestone: [milestone: TimelineMilestone]
@@ -96,7 +117,7 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
 
 <template>
   <div v-if="store.showTimeline" class="checkpoint-timeline-container">
-    <div class="checkpoint-timeline" :style="{ gridTemplateColumns }">
+    <div ref="timelineRef" class="checkpoint-timeline" :style="{ gridTemplateColumns }">
       <!-- Timeline label in first column -->
       <div class="timeline-label">Timeline</div>
       <!-- Timeline line -->
@@ -163,7 +184,9 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
 }
 
 .checkpoint-timeline {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 999;
   padding: 3rem 0 1rem 0;
   min-height: 100px;
   display: grid;
@@ -171,6 +194,9 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
   min-width: max-content;
   align-items: center;
   overflow: visible;
+  background: var(--bg-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease;
 }
 
 .timeline-label {
@@ -301,11 +327,11 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
 .checkpoint-marker-connector {
   position: absolute;
   left: 50%;
-  top: 16px;
+  top: -12px;
   transform: translateX(-50%);
   width: 2px;
-  height: 34px;
-  background: linear-gradient(180deg, transparent 0%, var(--border) 100%);
+  height: 28px;
+  background: linear-gradient(180deg, var(--border) 0%, var(--border) 100%);
 }
 
 .checkpoint-marker-label {
@@ -313,7 +339,7 @@ function handleDrop(sprintNumber: number, event: DragEvent) {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   white-space: nowrap;
   text-align: center;
   z-index: 10;
