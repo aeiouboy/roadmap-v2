@@ -220,16 +220,16 @@ function toggleTheme() {
       @toggle-theme="toggleTheme"
     />
 
-    <!-- Main Content - Timeline and Grid in same scrollable container -->
+    <!-- Main Content - Timeline sticky, Grid scrollable -->
     <main class="roadmap-main">
-      <div class="roadmap-scroll-container">
-        <!-- Checkpoint Timeline -->
-        <CheckpointTimeline
-          @edit-milestone="handleEditMilestone"
-          @new-milestone="handleNewMilestone"
-          @milestone-moved="saveToFile"
-        />
+      <!-- Checkpoint Timeline (sticky) -->
+      <CheckpointTimeline
+        @edit-milestone="handleEditMilestone"
+        @new-milestone="handleNewMilestone"
+        @milestone-moved="saveToFile"
+      />
 
+      <div class="roadmap-scroll-container">
         <!-- Main Grid -->
         <RoadmapGrid
           @new-feature="handleNewFeature"
